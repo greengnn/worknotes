@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Reader demo HTML document</title>
+	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.1.min.js"></script>
+	<script type="text/javascript" src="jquery.custevent.js"></script>
+<script type="text/javascript">
+
+var db = function() { 'console' in window && console.log.call(console, arguments); };
+
+function Film(name) {
+	this.name = name;
+	$.CustEvent.createEvents(this, "beforeplay,play,stop");
+}
+Film.prototype.play = function() {
+	if (!this.fire("beforeplay")) {
+		db("Fail to play video.");
+		return false;
+	}
+	db("Play video." + this.name);
+	this.fire("play");
+};
+Film.prototype.stop = function() {
+	db("Stop video.");
+	this.fire("stop");
+};
+
+var file = new Film('weiye');
+
+file.on('play',function(){alert(this.name)})
+file.play();
+</script>
+</head>
+<body>
+
+</body>
+</html>
